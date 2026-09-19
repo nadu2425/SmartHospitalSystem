@@ -68,3 +68,48 @@ void loadBeds(void)
 
     fclose(file);
 }
+void savePatientRecords(void)
+{
+    FILE *file;
+    int i;
+
+    file = fopen("patient_records.txt", "w");
+
+    if (file == NULL)
+    {
+        printf("Error opening patient_records.txt\n");
+        return;
+    }
+
+    for (i = 0; i < count; i++)
+    {
+        fprintf(file,
+                "Patient: %s\n",
+                patientNames[i]);
+
+        fprintf(file,
+                "Age: %d\n",
+                patientAges[i]);
+
+        fprintf(file,
+                "Urgency: %d\n",
+                urgencyLevels[i]);
+
+        fprintf(file,
+                "Final Bill: %.2f\n",
+                finalBills[i]);
+
+        fprintf(file,
+                "Discount: %.2f\n",
+                patientDiscounts[i]);
+
+        fprintf(file,
+                "Waiting Time: %.2f minutes\n",
+                waitingTimes[i]);
+
+        fprintf(file,
+                "-----------------------------\n");
+    }
+
+    fclose(file);
+}
