@@ -7,3 +7,5 @@
 #endif
 
 void patientRegister(void);
+float waitingTimeCalculator(int specialitID);
+void displayPatients(void);

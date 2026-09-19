@@ -41,3 +41,23 @@ void patientRegister(void){
     }
 
 }
+void displayPatients(void)
+{
+    int i;
+
+    if (count == 0)
+    {
+        printf("\nNo patients registered.\n");
+        return;
+    }
+
+    printf("\n========== PATIENT LIST ==========\n");
+
+    for (i = 0; i < count; i++)
+    {
+        printf("\nPatient %d\n", i + 1);
+        printf("Name : %s\n", nameOfPatients[i]);
+        printf("Age  : %d\n", ageOfPatients[i]);
+        printf("Urgency : %d\n", urgencyLevels[i]);
+    }
+}
