@@ -43,3 +43,58 @@ float discountCalculator(float gross, int age)
 
     return 0.0;
 }
+void displayBill(int index)
+{
+    float baseFee;
+    float surcharge;
+    float wardCost;
+    float gross;
+
+    if (index < 0 || index >= count)
+    {
+        printf("Invalid patient.\n");
+        return;
+    }
+
+    baseFee = specialtyFees[specialtyIDs[index]];
+
+    surcharge =
+        surchargeCalculator(
+            baseFee,
+            urgencyLevels[index]
+        );
+
+    wardCost =
+        wardCostCalculator(
+            wardIDs[index],
+            admissionDays[index]
+        );
+
+    gross =
+        baseFee +
+        surcharge +
+        wardCost;
+
+    printf("\n========== PATIENT BILL ==========\n");
+
+    printf("Patient Name : %s\n",
+           nameOfPatients[index]);
+
+    printf("Age          : %d\n",
+           ageOfPatients[index]);
+
+    printf("Base Fee     : Rs. %.2f\n",
+           baseFee);
+
+    printf("Surcharge    : Rs. %.2f\n",
+           surcharge);
+
+    printf("Ward Cost    : Rs. %.2f\n",
+           wardCost);
+
+    printf("Discount     : Rs. %.2f\n",
+           discount[index]);
+
+    printf("Final Bill   : Rs. %.2f\n",
+           finalBill[index]);
+}

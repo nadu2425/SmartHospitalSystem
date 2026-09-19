@@ -12,3 +12,4 @@ void displayPatients(void);
 float surchargeCalculator(float baseFee, int urgency);
 float wardCostCalculator(int wardID, int days);
 float discountCalculator(float gross, int age);
+void displayBill(int index);
