@@ -1,22 +1,23 @@
+#include <stdio.h>
 #include "hospital.h"
 
-char nameOfPatients[MAXPATIENTS][50];
-int ageOfPatients[MAXPATIENTS];
-int urgencyLevels[MAXPATIENTS];
-int specialityIDs[MAXPATIENTS];
-int wardIDs[MAXPATIENTS];
-int admissionDays[MAXPATIENTS];
-int bedNumbers[MAXPATIENTS];
 
-float waitingTime[MAXPATIENTS];
-float finalBill[MAXPATIENTS];
-float discount[MAXPATIENTS];
+const Specialty SPECIALTIES[MAX_SPECIALTIES] = {
+    {1, "General Practice (OPD)", 1500.00, 15, 30},
+    {2, "Paediatrics",            2500.00, 20, 20},
+    {3, "Cardiology",             4500.00, 30, 12},
+    {4, "Neurology",              5000.00, 30, 10}
+};
 
-int count=0;
-int specialtyQueue[NUMSPECIALITIES]={0};
-int bedOccupancy[NUMWARDS][MAXBEDS]={0};
-
-const int consultationTimes[NUMSPECIALTIES] = { 15, 20, 30, 30};
+const Ward WARDS[MAX_WARDS] = {
+    {1, "General Ward",    3000.00, 20},
+    {2, "Paediatric Ward", 6000.00, 10},
+    {3, "Surgical Ward",  12000.00, 10},
+    {4, "ICU (Intensive Care Unit)", 25000.00, 5}
+};
 
 
-
+int bedOccupancy[MAX_WARDS][MAX_BEDS] = {0};
+Patient patients[MAX_PATIENTS];
+int patient_count = 0;
+int specialty_queue[MAX_SPECIALTIES] = {0};

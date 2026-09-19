@@ -1,100 +1,42 @@
+#include <stdio.h>
 #include "hospital.h"
 
-float waitingTimeCalculator(int specialtyID)
-{
-    float waitTime;
+void calculate_billing(Patient *p) {
+    int spec_idx = p->specialty_id - 1;
 
-    waitTime =
-        specialtyQueue[specialtyID] *
-        consultationTimes[specialtyID];
 
-    specialtyQueue[specialtyID]++;
+    p->wait_time = specialty_queue[spec_idx] * SPECIALTIES[spec_idx].consultation_time;
+    specialty_queue[spec_idx]++;
 
-    return waitTime;
-}
 
-float surchargeCalculator(float baseFee, int urgency)
-{
-    if (urgency == 2)
-        return baseFee * 0.20;
-
-    if (urgency == 3)
-        return baseFee * 0.50;
-
-    return 0.0;
-}
-
-float wardCostCalculator(int wardID, int days)
-{
-    if (wardID < 0 ||
-        wardID >= NUM_WARDS ||
-        days <= 0)
-    {
-        return 0.0;
+    p->base_fee = SPECIALTIES[spec_idx].base_fee;
+    if (p->urgency == 1) {
+        p->surcharge = 0.0;
+    } else if (p->urgency == 2) {
+        p->surcharge = p->base_fee * 0.20;
+    } else if (p->urgency == 3) {
+        p->surcharge = p->base_fee * 0.50;
+    } else {
+        p->surcharge = 0.0;
     }
 
-    return wardRates[wardID] * days;
-}
 
-float discountCalculator(float gross, int age)
-{
-    if (age < 5 || age > 65)
-        return gross * 0.15;
-
-    return 0.0;
-}
-void displayBill(int index)
-{
-    float baseFee;
-    float surcharge;
-    float wardCost;
-    float gross;
-
-    if (index < 0 || index >= count)
-    {
-        printf("Invalid patient.\n");
-        return;
+    if (p->is_admitted && p->ward_id >= 1 && p->ward_id <= MAX_WARDS) {
+        p->ward_cost = p->days_admitted * WARDS[p->ward_id - 1].daily_rate;
+    } else {
+        p->ward_cost = 0.0;
     }
 
-    baseFee = specialtyFees[specialtyIDs[index]];
 
-    surcharge =
-        surchargeCalculator(
-            baseFee,
-            urgencyLevels[index]
-        );
+    p->gross_total = p->base_fee + p->surcharge + p->ward_cost;
 
-    wardCost =
-        wardCostCalculator(
-            wardIDs[index],
-            admissionDays[index]
-        );
 
-    gross =
-        baseFee +
-        surcharge +
-        wardCost;
+    if (p->age < 5 || p->age > 65) {
+        p->discount = p->gross_total * 0.15;
+    } else {
+        p->discount = 0.0;
+    }
 
-    printf("\n========== PATIENT BILL ==========\n");
 
-    printf("Patient Name : %s\n",
-           nameOfPatients[index]);
-
-    printf("Age          : %d\n",
-           ageOfPatients[index]);
-
-    printf("Base Fee     : Rs. %.2f\n",
-           baseFee);
-
-    printf("Surcharge    : Rs. %.2f\n",
-           surcharge);
-
-    printf("Ward Cost    : Rs. %.2f\n",
-           wardCost);
-
-    printf("Discount     : Rs. %.2f\n",
-           discount[index]);
-
-    printf("Final Bill   : Rs. %.2f\n",
-           finalBill[index]);
+    p->final_amount = p->gross_total - p->discount;
 }

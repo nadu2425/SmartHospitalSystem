@@ -2,114 +2,49 @@
 #include "hospital.h"
 #include "file_handling.h"
 
-void saveBeds(void)
-{
-    FILE *file;
-    int ward;
-    int bed;
-
-    file = fopen("beds_status.txt", "w");
-
-    if (file == NULL)
-    {
-        printf("Error opening beds_status.txt\n");
+void save_bed_status(const char *filename) {
+    FILE *fp = fopen(filename, "w");
+    if (!fp) {
+        printf("Error: Unable to open file %s for writing!\n", filename);
         return;
     }
 
-    for (ward = 0; ward < NUMWARDS; ward++)
-    {
-        for (bed = 0;
-             bed < wardCapacities[ward];
-             bed++)
-        {
-            fprintf(
-                file,
-                "%d %d %d\n",
-                ward,
-                bed,
-                bedOccupancy[ward][bed]
-            );
+    for (int i = 0; i < MAX_WARDS; i++) {
+        for (int j = 0; j < MAX_BEDS; j++) {
+            fprintf(fp, "%d ", bedOccupancy[i][j]);
+        }
+        fprintf(fp, "\n");
+    }
+
+    fclose(fp);
+}
+
+void load_bed_status(const char *filename) {
+    FILE *fp = fopen(filename, "r");
+    if (!fp) {
+        return;
+    }
+
+    for (int i = 0; i < MAX_WARDS; i++) {
+        for (int j = 0; j < MAX_BEDS; j++) {
+            if (fscanf(fp, "%d", &bedOccupancy[i][j]) != 1) {
+                bedOccupancy[i][j] = 0;
+            }
         }
     }
 
-    fclose(file);
+    fclose(fp);
 }
 
-void loadBeds(void)
-{
-    FILE *file;
-    int ward;
-    int bed;
-    int status;
-
-    file = fopen("beds_status.txt", "r");
-
-    if (file == NULL)
-        return;
-
-    while (
-        fscanf(
-            file,
-            "%d %d %d",
-            &ward,
-            &bed,
-            &status
-        ) == 3
-    )
-    {
-        if (ward >= 0 &&
-            ward < NUMWARDS &&
-            bed >= 0 &&
-            bed < wardCapacities[ward])
-        {
-            bedOccupancy[ward][bed] = status;
-        }
-    }
-
-    fclose(file);
-}
-void savePatientRecords(void)
-{
-    FILE *file;
-    int i;
-
-    file = fopen("patient_records.txt", "w");
-
-    if (file == NULL)
-    {
-        printf("Error opening patient_records.txt\n");
+void append_patient_record(const char *filename, const Patient *p) {
+    FILE *fp = fopen(filename, "a");
+    if (!fp) {
+        printf("Error: Unable to open file %s for logging!\n", filename);
         return;
     }
 
-    for (i = 0; i < count; i++)
-    {
-        fprintf(file,
-                "Patient: %s\n",
-                patientNames[i]);
+    fprintf(fp, "PAT-%d | Name: %s | Age: %d | Urgency: %d | Specialty: %d | Admitted: %d | Ward: %d | Bed: %d | Final Bill: LKR %.2f\n",
+            p->id, p->name, p->age, p->urgency, p->specialty_id, p->is_admitted, p->ward_id, p->bed_number, p->final_amount);
 
-        fprintf(file,
-                "Age: %d\n",
-                patientAges[i]);
-
-        fprintf(file,
-                "Urgency: %d\n",
-                urgencyLevels[i]);
-
-        fprintf(file,
-                "Final Bill: %.2f\n",
-                finalBills[i]);
-
-        fprintf(file,
-                "Discount: %.2f\n",
-                patientDiscounts[i]);
-
-        fprintf(file,
-                "Waiting Time: %.2f minutes\n",
-                waitingTimes[i]);
-
-        fprintf(file,
-                "-----------------------------\n");
-    }
-
-    fclose(file);
+    fclose(fp);
 }

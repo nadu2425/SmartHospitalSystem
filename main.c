@@ -1,152 +1,55 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "hospital.h"
+#include "file_handling.h"
 
+int main(void) {
 
-int main(void)
-{
+    load_bed_status("beds_status.txt");
+
     int choice;
-    int patientNumber;
-
-
-    /* Load saved bed information */
-
-    loadBeds();
-
-
-    printf("\n");
-    printf("========================================\n");
-    printf("   SMART HOSPITAL & RESOURCE SYSTEM\n");
-    printf("========================================\n");
-
-
-    do
-    {
-        printf("\n========== MAIN MENU ==========\n");
-
-        printf("1. Register Patient\n");
-        printf("2. Display Patient Bill\n");
-        printf("3. Display All Patients\n");
-        printf("4. Display Bed Occupancy\n");
-        printf("5. Generate Hospital Report\n");
-        printf("6. Save Data\n");
-        printf("7. Exit\n");
-
-        printf("===============================\n");
-
-
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
-
-
-        switch (choice)
-        {
-            case 1:
-
-                registerPatient();
-
-                break;
-
-
-            case 2:
-
-                if (count == 0)
-                {
-                    printf(
-                        "\nNo patients registered.\n"
-                    );
-                }
-                else
-                {
-                    printf(
-                        "\nEnter patient number (1-%d): ",
-                        count
-                    );
-
-                    scanf(
-                        "%d",
-                        &patientNumber
-                    );
-
-
-                    if (patientNumber >= 1 &&
-                        patientNumber <= count)
-                    {
-                        displayBill(
-                            patientNumber - 1
-                        );
-                    }
-                    else
-                    {
-                        printf(
-                            "Invalid patient number.\n"
-                        );
-                    }
-                }
-
-                break;
-
-
-            case 3:
-
-                displayPatients();
-
-                break;
-
-
-            case 4:
-
-                displayBeds();
-
-                break;
-
-
-            case 5:
-
-                generateReport();
-
-                break;
-
-
-            case 6:
-
-                saveBeds();
-
-                savePatientRecords();
-
-                printf(
-                    "\nData saved successfully.\n"
-                );
-
-                break;
-
-
-            case 7:
-
-                saveBeds();
-
-                savePatientRecords();
-
-                printf(
-                    "\nData saved.\n"
-                );
-
-                printf(
-                    "Thank you for using Smart Hospital System.\n"
-                );
-
-                break;
-
-
-            default:
-
-                printf(
-                    "\nInvalid choice. Enter 1-7.\n"
-                );
+    do {
+        printf("\n=======================================================\n");
+        printf("     SMART HOSPITAL RESOURCE ALLOCATION SYSTEM         \n");
+        printf("=======================================================\n");
+        printf("1. Register New Patient Intake & Generate Bill\n");
+        printf("2. View Hospital Ward Bed Status Matrix\n");
+        printf("3. Display Emergency Triage Priority Queue\n");
+        printf("4. Generate Performance Reports & Analytics\n");
+        printf("5. Exit System\n");
+        printf("=======================================================\n");
+        printf("Enter Option (1-5): ");
+        if (scanf("%d", &choice) != 1) {
+            break;
         }
 
-
-    } while (choice != 7);
-
+        switch (choice) {
+            case 1:
+                register_patient();
+                save_bed_status("beds_status.txt");
+                break;
+            case 2:
+                display_bed_status();
+                break;
+            case 3:
+                if (patient_count == 0) {
+                    printf("\nNo patient records available.\n");
+                } else {
+                    sort_patients_by_priority(patients, patient_count);
+                }
+                break;
+            case 4:
+                generate_performance_report();
+                break;
+            case 5:
+                save_bed_status("beds_status.txt");
+                printf("\nExiting System. All bed data saved successfully.\n");
+                break;
+            default:
+                printf("\nInvalid Option! Please enter a number between 1 and 5.\n");
+        }
+    } while (choice != 5);
 
     return 0;
 }
+

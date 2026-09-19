@@ -1,0 +1,2 @@
+PAT-1001 | Name: Nanduni | Age: 18 | Urgency: 1 | Specialty: 3 | Admitted: 1 | Ward: 2 | Bed: 1 | Final Bill: LKR 16500.00
+PAT-1002 | Name: nim | Age: 18 | Urgency: 1 | Specialty: 3 | Admitted: 1 | Ward: 2 | Bed: 2 | Final Bill: LKR 16500.00
