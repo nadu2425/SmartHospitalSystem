@@ -9,3 +9,6 @@
 void patientRegister(void);
 float waitingTimeCalculator(int specialitID);
 void displayPatients(void);
+float surchargeCalculator(float baseFee, int urgency);
+float wardCostCalculator(int wardID, int days);
+float discountCalculator(float gross, int age);

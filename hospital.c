@@ -19,3 +19,4 @@ int bedOccupancy[NUMWARDS][MAXBEDS]={0};
 const int consultationTimes[NUMSPECIALTIES] = { 15, 20, 30, 30};
 
 
+
