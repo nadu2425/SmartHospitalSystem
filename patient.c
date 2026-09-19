@@ -17,4 +17,27 @@ void patientRegister(void){
     printf("Patient registered successfully!\n");
 
     count++;
+    printf("Enter age: ");
+    scanf("%d", &ageOfPatients[count]);
+
+    while (ageOfPatients[count] < 0)
+    {
+        printf("Invalid age. Enter again: ");
+        scanf("%d", &ageOfPatients[count]);
+    }
+
+    printf("\nUrgency Level\n");
+    printf("1. Normal\n");
+    printf("2. Urgent\n");
+    printf("3. Critical\n");
+
+    printf("Enter urgency level: ");
+    scanf("%d", &urgencyLevels[count]);
+
+    while (urgencyLevels[count] < 1 || urgencyLevels[count] > 3)
+    {
+        printf("Invalid urgency. Enter 1-3: ");
+        scanf("%d", &urgencyLevels[count]);
+    }
+
 }
