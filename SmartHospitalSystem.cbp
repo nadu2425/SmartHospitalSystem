@@ -31,7 +31,27 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="beds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="billing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="file_handling.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="file_handling.h" />
+		<Unit filename="hospital.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="hospital.h" />
 		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="patient.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="reports.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

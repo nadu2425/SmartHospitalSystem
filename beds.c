@@ -29,11 +29,11 @@ int allocate_bed(int ward_id, int *bed_num) {
     for (int j = 0; j < WARDS[w_idx].capacity; j++) {
         if (bedOccupancy[w_idx][j] == 0) {
             bedOccupancy[w_idx][j] = 1;
-            *bed_num = j + 1; // 1-based indexing for bed numbers
+            *bed_num = j + 1;
             return 1;
         }
     }
-    return 0; // Ward is full
+    return 0;
 }
 
 void free_bed(int ward_id, int bed_num) {
